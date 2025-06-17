@@ -1,5 +1,3 @@
-import java.awt.CardLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -41,7 +39,8 @@ public class CelebrityFrame extends JFrame
 	{
 		//The first line of any subclass should ALWAYS be a correct call to the super constructor.
 		super();
-	
+		controller = controllerRef;
+		setupFrame();
 	}
 	
 	/**
@@ -49,7 +48,14 @@ public class CelebrityFrame extends JFrame
 	 */
 	private void setupFrame()
 	{
-		
+
+		// Set the start and game panels
+		startPanel = new StartPanel(controller);
+		gamePanel = new CelebrityPanel(controller);
+
+		// Set configurations
+		setSize(800, 600);
+		setVisible(true);
 	}
 	
 	/**
@@ -58,7 +64,21 @@ public class CelebrityFrame extends JFrame
 	 */
 	public void replaceScreen(String screen)
 	{
-		
+		if (screen.equals("START"))
+		{
+			remove(startPanel);
+			add(gamePanel);
+			gamePanel.addClue(controller.sendClue());
+		}
+		else if (screen.equals("GAME"))
+		{
+			super.remove(gamePanel);
+			add(startPanel);
+		}
+		else
+		{
+			System.out.println("Invalid screen name: " + screen);
+		}
 	}
 	
 }
