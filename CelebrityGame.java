@@ -31,8 +31,8 @@ public class CelebrityGame
 	 */
 	public CelebrityGame()
 	{
-		celebGameList = new ArrayList<Celebrity>();
-		gameWindow = new CelebrityFrame(this);
+		this.celebGameList = new ArrayList<Celebrity>();
+		this.gameWindow = new CelebrityFrame(this);
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class CelebrityGame
 	 */
 	public void prepareGame()
 	{
-		celebGameList = new ArrayList<Celebrity>(); 
+		this.celebGameList = new ArrayList<Celebrity>(); 
 		gameWindow.replaceScreen("START");
 	}
 
@@ -54,6 +54,19 @@ public class CelebrityGame
 	 */
 	public boolean processGuess(String guess)
 	{
+		if (guess.trim().equalsIgnoreCase(gameCelebrity.getAnswer()))
+		{
+			celebGameList.remove(gameCelebrity);
+			if (celebGameList.isEmpty())
+			{
+				this.gameCelebrity = new Celebrity("", "");
+			}
+			else
+			{
+				this.gameCelebrity = celebGameList.getFirst();
+			}
+			return true;
+		}
 		return false;
 	}
 
@@ -64,15 +77,15 @@ public class CelebrityGame
 	 */
 	public void play()
 	{
-		if (celebGameList != null && !celebGameList.isEmpty())
+		if (this.celebGameList != null && !celebGameList.isEmpty())
 		{
 			this.gameCelebrity = celebGameList.get(0);
-			gameWindow.replaceScreen("GAME");
+			this.gameWindow.replaceScreen("GAME");
 		}
 		else
 		{
-			gameWindow = new CelebrityFrame(this);
-			gameWindow.replaceScreen("START");
+			this.gameWindow = new CelebrityFrame(this);
+			this.gameWindow.replaceScreen("START");
 		} 
 	}
 
@@ -88,7 +101,7 @@ public class CelebrityGame
 	 */
 	public void addCelebrity(String name, String guess, String type)
 	{
-		celebGameList.add(new Celebrity(name, guess));
+		this.celebGameList.add(new Celebrity(name, guess));
 	}
 
 	/**
@@ -131,7 +144,7 @@ public class CelebrityGame
 	 */
 	public int getCelebrityGameSize()
 	{
-		return 0;
+		return this.celebGameList.size();
 	}
 
 	/**
@@ -142,7 +155,7 @@ public class CelebrityGame
 	 */
 	public String sendClue()
 	{
-		return null;
+		return this.gameCelebrity.getClue();
 	}
 
 	/**
@@ -153,6 +166,6 @@ public class CelebrityGame
 	 */
 	public String sendAnswer()
 	{
-		return null;
+		return this.gameCelebrity.getAnswer();
 	}
 }

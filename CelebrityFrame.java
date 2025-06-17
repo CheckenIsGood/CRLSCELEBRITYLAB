@@ -39,7 +39,7 @@ public class CelebrityFrame extends JFrame
 	{
 		//The first line of any subclass should ALWAYS be a correct call to the super constructor.
 		super();
-		controller = controllerRef;
+		this.controller = controllerRef;
 		setupFrame();
 	}
 	
@@ -50,8 +50,8 @@ public class CelebrityFrame extends JFrame
 	{
 
 		// Set the start and game panels
-		startPanel = new StartPanel(controller);
-		gamePanel = new CelebrityPanel(controller);
+		this.startPanel = new StartPanel(this.controller);
+		this.gamePanel = new CelebrityPanel(this.controller);
 
 		// Set configurations
 		setSize(800, 600);
@@ -66,14 +66,14 @@ public class CelebrityFrame extends JFrame
 	{
 		if (screen.equals("START"))
 		{
-			remove(startPanel);
-			add(gamePanel);
-			gamePanel.addClue(controller.sendClue());
+			super.remove(this.gamePanel);
+			add(this.startPanel);
 		}
 		else if (screen.equals("GAME"))
 		{
-			super.remove(gamePanel);
-			add(startPanel);
+			remove(this.startPanel);
+			add(this.gamePanel);
+			gamePanel.addClue(controller.sendClue());
 		}
 		else
 		{
