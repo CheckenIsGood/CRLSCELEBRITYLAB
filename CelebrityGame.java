@@ -54,9 +54,13 @@ public class CelebrityGame
 	 */
 	public boolean processGuess(String guess)
 	{
+
+		boolean matches = false;
+
 		if (guess.trim().equalsIgnoreCase(gameCelebrity.getAnswer()))
 		{
-			celebGameList.remove(gameCelebrity);
+			matches = true;
+			celebGameList.remove(0);
 			if (celebGameList.isEmpty())
 			{
 				this.gameCelebrity = new Celebrity("", "");
@@ -65,9 +69,8 @@ public class CelebrityGame
 			{
 				this.gameCelebrity = celebGameList.getFirst();
 			}
-			return true;
 		}
-		return false;
+		return matches;
 	}
 
 	/**
@@ -101,7 +104,20 @@ public class CelebrityGame
 	 */
 	public void addCelebrity(String name, String guess, String type)
 	{
-		this.celebGameList.add(new Celebrity(name, guess));
+		Celebrity currentCelebrity;
+		if (type.equals("Literature"))
+		{
+			currentCelebrity = new LiteratureCelebrity(name, guess);
+		}
+		else if (type.equals("Movie"))
+		{
+			currentCelebrity = new MovieCelebrity(name, guess);
+		}
+		else //Add an else if here
+		{
+			currentCelebrity = new Celebrity(name, guess);
+		}
+		this.celebGameList.add(currentCelebrity); 
 	}
 
 	/**
@@ -129,12 +145,36 @@ public class CelebrityGame
 	{
 
 		// wtf does series of clues mean?
-
+		boolean validClue = false;
 		if (clue.trim().length() >= 10)
 		{
-			return true;
+			validClue = true;
+			if (type.equalsIgnoreCase("Literature"))
+			{
+				String[] temp = clue.split(",");
+				if (temp.length > 1)
+				{
+					validClue = true; // Literature clues must be a series of clues
+				}
+				else
+				{
+					validClue = false; // Literature clues must be a series of clues
+				}
+			}
+			else if (type.equalsIgnoreCase("Movie"))
+			{
+				String[] temp = clue.split(",");
+				if (temp.length > 2)
+				{
+					validClue = true; // Movie clues must be a series of clues
+				}
+				else
+				{
+					validClue = false; // Movie clues must be a series of clues
+				}
+			}
 		}
-		return false;
+		return validClue;
 	}
 
 	/**

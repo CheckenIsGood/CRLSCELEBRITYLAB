@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String [] args) {
-        System.out.println("Hello, world!");
+        Animal a = new Dog("Buddy", "Golden Retriever");
+        System.out.println(a);
     }
 }
